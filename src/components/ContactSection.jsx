@@ -5,7 +5,7 @@ export default function ContactSection({ socials, email }) {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
-  const contactEmail = email || "fachruly.trigustiwan@99.co";
+  const contactEmail = email || "Trigustiwanfachruly@gmail.com";
 
   const socialIcons = {
     instagram: "IG",

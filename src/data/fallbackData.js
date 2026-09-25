@@ -4,7 +4,7 @@ export const profile = {
   role: "Creative Content",
   bio: "I am Fachruly Trigustiwan, a Communication Science graduate with a strong focus on photography, videography, and creative content development. I have experience in content planning, production, and visual storytelling across both institutional and community-based projects, with a commitment to delivering engaging and impactful media.",
   city: "Jakarta, Indonesia",
-  email: "fachruly.trigustiwan@99.co",
+  email: "Trigustiwanfachruly@gmail.com",
   profileAltImage: "/media/pp.jpeg",
   socials: [
     {
