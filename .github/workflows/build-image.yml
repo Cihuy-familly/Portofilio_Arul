@@ -14,8 +14,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  REGISTRY: ${{ vars.REGISTRY_URL || 'registry.cihuyproject.my.id' }}
-  IMAGE_NAME: ${{ vars.REGISTRY_IMAGE_NAME || 'portfolio-arul' }}
+  REGISTRY: ${{ secrets.REGISTRY_URL }}
+  IMAGE_NAME: ${{ secrets.REGISTRY_IMAGE_NAME }}
 
 jobs:
   build-and-push:
@@ -37,7 +37,7 @@ jobs:
         uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ vars.REGISTRY_USERNAME }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: Generate image tags and labels

@@ -66,14 +66,14 @@ Tags yang diterbitkan:
 - `sha-<short-commit>` untuk melacak source commit
 - `latest` untuk deployment terbaru dari branch `main`
 
-Konfigurasi repository GitHub yang diperlukan:
+Tambahkan semua nilai berikut sebagai repository secrets di GitHub:
 
-- Variable `REGISTRY_URL`: `registry.cihuyproject.my.id` (tanpa `https://`)
-- Variable `REGISTRY_IMAGE_NAME`: `portfolio-arul` (opsional; ini nilai default)
-- Variable `REGISTRY_USERNAME`: username registry
+- Secret `REGISTRY_URL`: `registry.cihuyproject.my.id` (tanpa `https://`)
+- Secret `REGISTRY_IMAGE_NAME`: `portfolio-arul`
+- Secret `REGISTRY_USERNAME`: username registry
 - Secret `REGISTRY_PASSWORD`: password registry
 
-Password harus disimpan sebagai GitHub Actions secret, bukan variable biasa atau file repository.
+Credential harus disimpan sebagai GitHub Actions secrets, bukan di file repository.
 
 ## Deploy Dengan Podman
 
