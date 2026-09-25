@@ -4,6 +4,7 @@ export const profile = {
   role: "Creative Content",
   bio: "I am Fachruly Trigustiwan, a Communication Science graduate with a strong focus on photography, videography, and creative content development. I have experience in content planning, production, and visual storytelling across both institutional and community-based projects, with a commitment to delivering engaging and impactful media.",
   city: "Jakarta, Indonesia",
+  email: "fachruly.trigustiwan@99.co",
   profileAltImage: "/media/pp.jpeg",
   socials: [
     {
@@ -28,6 +29,17 @@ export const profile = {
     },
   ],
 };
+
+export const fallbackSkills = [
+  { name: "Content Planning", emoji: "📋" },
+  { name: "Videography", emoji: "🎥" },
+  { name: "Photography", emoji: "📸" },
+  { name: "Social Media Management", emoji: "📱" },
+  { name: "Video Editing", emoji: "✂️" },
+  { name: "Content Strategy", emoji: "🧠" },
+  { name: "Brand Storytelling", emoji: "📖" },
+  { name: "Copywriting", emoji: "✍️" },
+];
 
 export const fallbackIgContent = [
   {

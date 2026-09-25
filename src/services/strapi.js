@@ -1,13 +1,14 @@
 const DEFAULT_STRAPI_URL = "https://strapi.cihuy-familly.my.id";
 
 const ENDPOINT_CANDIDATES = [
-  "/api/cms-aruls?populate=*",
-  "/api/cms-arul?populate=*",
-  "/api/cms_aruls?populate=*",
+  "/api/cms-aruls?populate=*&pagination[pageSize]=-1",
+  "/api/cms-arul?populate=*&pagination[pageSize]=-1",
+  "/api/cms_aruls?populate=*&pagination[pageSize]=-1",
 ];
 
 const IG_KEYWORDS = ["ig", "instagram", "content", "post", "social"];
 const WORK_KEYWORDS = ["work", "experience", "career", "job", "pengalaman"];
+const SKILLS_KEYWORDS = ["skills", "skill"];
 
 const flattenStrapiData = (data) => {
   if (!data) return [];
@@ -161,7 +162,7 @@ const parseCmsResponse = (payload, baseUrl) => {
   const records = flattenStrapiData(payload?.data);
   const mainRecord = pickMainRecord(records);
 
-  if (!mainRecord) return { igContent: [], workExperience: [] };
+  if (!mainRecord) return { igContent: [], workExperience: [], skills: [] };
 
   const igByField = findFieldByKeywords(mainRecord, IG_KEYWORDS).map((item, index) =>
     normalizeIgItem(item, index, baseUrl),
@@ -172,9 +173,23 @@ const parseCmsResponse = (payload, baseUrl) => {
 
   const { igRows, workRows } = fromTypedRows(records, baseUrl);
 
+  // Skills — stored as a JSON array field
+  let skills = [];
+  const skillsField = mainRecord.skills || mainRecord.Skills || mainRecord.skill;
+  if (Array.isArray(skillsField)) {
+    skills = skillsField.map((s) => {
+      if (typeof s === "string") return { name: s, emoji: "⭐" };
+      return {
+        name: s.name || "",
+        emoji: s.emoji || s.icon || "⭐",
+      };
+    }).filter((s) => s.name);
+  }
+
   return {
     igContent: igByField.length ? igByField : igRows,
     workExperience: workByField.length ? workByField : workRows,
+    skills,
   };
 };
 

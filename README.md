@@ -53,6 +53,28 @@ Karena kamu mau CMS hanya untuk `IG content` dan `Work experience`, setup paling
   - `/api/cms_aruls?populate=*`
 - Kalau CMS belum siap/public, UI otomatis pakai fallback data lokal supaya landing page tetap tampil.
 
+## Container Image CI
+
+GitHub Actions menjalankan build pada runner `[self-hosted, cihuy-service]` setiap ada push ke `main` atau saat workflow dijalankan manual. Satu image manifest dibangun untuk:
+
+- `linux/amd64` (x86-64)
+- `linux/arm64` (ARM64)
+
+Tags yang diterbitkan:
+
+- `v0.0.<github-run-number>` sebagai version tag unik
+- `sha-<short-commit>` untuk melacak source commit
+- `latest` untuk deployment terbaru dari branch `main`
+
+Konfigurasi repository GitHub yang diperlukan:
+
+- Variable `REGISTRY_URL`: `registry.cihuyproject.my.id` (tanpa `https://`)
+- Variable `REGISTRY_IMAGE_NAME`: `portfolio-arul` (opsional; ini nilai default)
+- Variable `REGISTRY_USERNAME`: username registry
+- Secret `REGISTRY_PASSWORD`: password registry
+
+Password harus disimpan sebagai GitHub Actions secret, bukan variable biasa atau file repository.
+
 ## Deploy Dengan Podman
 
 File deploy yang sudah disiapkan:
@@ -60,27 +82,34 @@ File deploy yang sudah disiapkan:
 - `nginx.conf`
 - `podman-compose.yml`
 
-Jalankan dari PowerShell:
+Login satu kali pada server deployment agar Podman menyimpan credential di auth store milik user:
 
-```powershell
-cd "D:\Users\dawwi\Documents\Playground\porto_arul"
+```bash
+podman login registry.cihuyproject.my.id --username <registry-user>
+```
 
-# Optional: override URL CMS dan port app
-$env:VITE_STRAPI_URL="https://strapi.cihuy-familly.my.id"
-$env:APP_PORT="3003"
+Jalankan deployment:
 
-podman compose -f podman-compose.yml up -d --build
+```bash
+podman compose -f podman-compose.yml pull
+podman compose -f podman-compose.yml up -d
+```
+
+Secara default Compose menarik `registry.cihuyproject.my.id/portfolio-arul:latest`. Untuk deploy version tertentu:
+
+```bash
+IMAGE_TAG=v0.0.12 podman compose -f podman-compose.yml up -d
 ```
 
 Cek container:
 
-```powershell
+```bash
 podman ps
 podman logs -f porto_arul_web
 ```
 
 Stop:
 
-```powershell
+```bash
 podman compose -f podman-compose.yml down
 ```
